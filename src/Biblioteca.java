@@ -67,17 +67,14 @@ public class Biblioteca {
     public void emprestarLivro(int idLivro, int idUsuario) {
         Livro livro = buscarLivro(idLivro);
         if(livro == null) {
-            System.out.println("Não existe nenhum livro com o id informado");
-            return;
+            throw new LivroNaoEncontradoException("Não existe nenhum livro com o id informado.");
         }
         Usuario usuario = buscarUsuario(idUsuario);
         if(usuario == null) {
-            System.out.println("Não existe nenhum usuário com o id informado");
-            return;
+            throw new UsuarioNaoEncontradoException("Não existe nenhum usuário com o id informado");
         }
         if(!livro.isDisponivel()) {
-            System.out.println("O livro não esta disponível para empréstimo");
-            return;
+            throw new EmprestimoNaoEncontradoException("Esse livro não está disponivel para emprestimo");
         }
 
         LocalDate diaEmprestimo = LocalDate.now();
@@ -99,7 +96,7 @@ public class Biblioteca {
         Livro livro = emprestimo.getLivro();
 
         livro.devolver();
-        emprestimos.remove(emprestimo);
+        emprestimo.devolver();
     }
 
     public List<Usuario> getUsuarios() {

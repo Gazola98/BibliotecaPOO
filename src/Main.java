@@ -65,7 +65,11 @@ public class Main {
                     System.out.print("Digite o ID do usuário: ");
                     int idUser = scanner.nextInt();
 
-                    novaBiblioteca.emprestarLivro(idLivro, idUser);
+                    try {
+                        novaBiblioteca.emprestarLivro(idLivro, idUser);
+                    } catch (LivroNaoEncontradoException e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 case 5:
                     System.out.print("Digite o ID do livro: ");
