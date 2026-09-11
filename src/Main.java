@@ -59,6 +59,7 @@ public class Main {
                     novaBiblioteca.listarLivrosDisponiveis();
                     break;
                 case 4:
+
                     System.out.print("Digite o ID do livro: ");
                     int idLivro = scanner.nextInt();
 
@@ -66,16 +67,44 @@ public class Main {
                     int idUser = scanner.nextInt();
 
                     try {
+
                         novaBiblioteca.emprestarLivro(idLivro, idUser);
+
+                        System.out.println("Livro emprestado com sucesso!");
+
                     } catch (LivroNaoEncontradoException e) {
+
+                        System.out.println(e.getMessage());
+
+                    } catch (UsuarioNaoEncontradoException e) {
+
+                        System.out.println(e.getMessage());
+
+                    } catch (LivroNaoDisponivelException e) {
+
                         System.out.println(e.getMessage());
                     }
+                    finally {
+                        System.out.println("Finalizando operação com empréstimo...");
+                    }
+
                     break;
                 case 5:
-                    System.out.print("Digite o ID do livro: ");
-                    int iddevolucao = scanner.nextInt();
 
-                    novaBiblioteca.devolverLivro(iddevolucao);
+                    System.out.print("Digite o ID do livro: ");
+                    int idDevolucao = scanner.nextInt();
+
+                    try {
+
+                        novaBiblioteca.devolverLivro(idDevolucao);
+
+                        System.out.println("Livro devolvido com sucesso!");
+
+                    } catch (EmprestimoNaoEncontradoException e) {
+
+                        System.out.println(e.getMessage());
+                    }
+
                     break;
                 case 6:
                     for (Emprestimo emprestimo : novaBiblioteca.getEmprestimos()) {

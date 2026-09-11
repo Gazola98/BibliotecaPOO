@@ -65,34 +65,53 @@ public class Biblioteca {
     }
 
     public void emprestarLivro(int idLivro, int idUsuario) {
+
         Livro livro = buscarLivro(idLivro);
-        if(livro == null) {
-            throw new LivroNaoEncontradoException("Não existe nenhum livro com o id informado.");
+
+        if (livro == null) {
+            throw new LivroNaoEncontradoException(
+                    "Não existe nenhum livro com o id informado."
+            );
         }
+
         Usuario usuario = buscarUsuario(idUsuario);
-        if(usuario == null) {
-            throw new UsuarioNaoEncontradoException("Não existe nenhum usuário com o id informado");
+
+        if (usuario == null) {
+            throw new UsuarioNaoEncontradoException(
+                    "Não existe nenhum usuário com o id informado."
+            );
         }
-        if(!livro.isDisponivel()) {
-            throw new EmprestimoNaoEncontradoException("Esse livro não está disponivel para emprestimo");
+
+        if (!livro.isDisponivel()) {
+            throw new LivroNaoDisponivelException(
+                    "Esse livro não está disponível para empréstimo."
+            );
         }
 
         LocalDate diaEmprestimo = LocalDate.now();
         LocalDate devolucao = diaEmprestimo.plusDays(7);
 
-        Emprestimo emprestimo = new Emprestimo(livro, usuario, diaEmprestimo, devolucao);
+        Emprestimo emprestimo = new Emprestimo(
+                livro,
+                usuario,
+                diaEmprestimo,
+                devolucao
+        );
 
         livro.emprestar();
         emprestimos.add(emprestimo);
     }
 
     public void devolverLivro(int idLivro) {
+
         Emprestimo emprestimo = buscarEmprestimo(idLivro);
 
-        if(emprestimo == null) {
-            System.out.println("Não existe nenhum empréstimo para esse livro!");
-            return;
+        if (emprestimo == null) {
+            throw new EmprestimoNaoEncontradoException(
+                    "Não existe nenhum empréstimo para esse livro."
+            );
         }
+
         Livro livro = emprestimo.getLivro();
 
         livro.devolver();
